@@ -1,0 +1,70 @@
+using System;
+
+// Батьківський клас PointSpace
+class PointSpace
+{
+    protected double x;
+    protected double y;
+    protected double z;
+
+    public PointSpace(double x, double y, double z)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    public void Print()
+    {
+        Console.WriteLine("Це точка в просторі");
+        Console.WriteLine($"Координати точки x={x:F2} y={y:F2} z={z:F2}");
+    }
+
+    public virtual void PrintLeng()
+    {
+        double distance = Math.Sqrt(x * x + y * y + z * z);
+        Console.WriteLine($"L={distance:F2}");
+    }
+}
+
+// Дочірній клас PointPlane
+class PointPlane : PointSpace
+{
+    public PointPlane(double x, double y) : base(x, y, 0)
+    {
+    }
+
+    public override void PrintLeng()
+    {
+        double distance = Math.Sqrt(x * x + y * y);
+        Console.WriteLine("Це точка на площині");
+        Console.WriteLine($"Координати точки x={x:F2} y={y:F2} L={distance:F2}");
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+        Random rand = new Random();
+
+        PointSpace point;
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (rand.Next(2) == 0)
+            {
+                point = new PointSpace(rand.NextDouble() * 10, rand.NextDouble() * 10, rand.NextDouble() * 10);
+            }
+            else
+            {
+                point = new PointPlane(rand.NextDouble() * 10, rand.NextDouble() * 10);
+            }
+
+            point.Print();
+            point.PrintLeng();
+            Console.WriteLine();
+        }
+    }
+}
